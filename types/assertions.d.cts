@@ -27,7 +27,7 @@ export type Assertions = {
 	/**
 	 * Assert that `actual` is [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy), returning a boolean
 	 * indicating whether the assertion passed.
-	 * 
+	 *
 	 * Note: An `else` clause using this as a type guard will be subtly incorrect for `string` and `number` types and will not give `0` or `''` as a potential value in an `else` clause.
 	 */
 	assert: AssertAssertion;
@@ -123,7 +123,7 @@ export type Assertions = {
 	/**
 	 * Assert that `actual` is [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy), returning a boolean
 	 * indicating whether the assertion passed.
-	 * 
+	 *
 	 * Note: An `else` clause using this as a type guard will be subtly incorrect for `string` and `number` types and will not give `0` or `''` as a potential value in an `else` clause.
 	 */
 	truthy: TruthyAssertion;
@@ -134,10 +134,11 @@ type Falsy<T> = T extends Exclude<T, FalsyValue> ? (T extends number | string | 
 
 export type AssertAssertion = {
 	/**
-	 * Assert that `actual` is [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy), returning a boolean
-	 * indicating whether the assertion passed.
-	 * 
-	 * Note: An `else` clause using this as a type guard will be subtly incorrect for `string` and `number` types and will not give `0` or `''` as a potential value in an `else` clause.
+	 * Assert that `actual` is [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy), returning `true` if the
+	 * assertion passed and throwing otherwise.
+	 *
+	 * Note: An `else` clause using this as a type guard will be subtly incorrect for `string` and `number` types and will
+	 * not give `0` or `''` as a potential value in an `else` clause.
 	 */
 	<T>(actual: T, message?: string): actual is T extends Falsy<T> ? never : T;
 
@@ -148,19 +149,19 @@ export type AssertAssertion = {
 export type DeepEqualAssertion = {
 	/**
 	 * Assert that `actual` is [deeply equal](https://github.com/concordancejs/concordance#comparison-details) to
-	 * `expected`, returning a boolean indicating whether the assertion passed.
+	 * `expected`, returning `true` if the assertion passed and throwing otherwise.
 	 */
 	<Actual, Expected extends Actual>(actual: Actual, expected: Expected, message?: string): actual is Expected;
 
 	/**
 	 * Assert that `actual` is [deeply equal](https://github.com/concordancejs/concordance#comparison-details) to
-	 * `expected`, returning a boolean indicating whether the assertion passed.
+	 * `expected`, returning `true` if the assertion passed and throwing otherwise.
 	 */
 	<Actual extends Expected, Expected>(actual: Actual, expected: Expected, message?: string): expected is Actual;
 
 	/**
 	 * Assert that `actual` is [deeply equal](https://github.com/concordancejs/concordance#comparison-details) to
-	 * `expected`, returning a boolean indicating whether the assertion passed.
+	 * `expected`, returning `true` if the assertion passed and throwing otherwise.
 	 */
 	<Actual, Expected>(actual: Actual, expected: Expected, message?: string): boolean;
 
@@ -170,7 +171,7 @@ export type DeepEqualAssertion = {
 
 export type LikeAssertion = {
 	/**
-	 * Assert that `value` is like `selector`, returning a boolean indicating whether the assertion passed.
+	 * Assert that `value` is like `selector`, returning `true` if the assertion passed and throwing otherwise.
 	 */
 	<Expected extends Record<string, any>>(value: any, selector: Expected, message?: string): value is Expected;
 
@@ -179,8 +180,8 @@ export type LikeAssertion = {
 };
 
 export type FailAssertion = {
-	/** Fail the test, always returning `false`. */
-	(message?: string): boolean;
+	/** Fail the test. */
+	(message?: string): never;
 
 	/** Skip this assertion. */
 	skip(message?: string): void;
@@ -188,7 +189,7 @@ export type FailAssertion = {
 
 export type FalseAssertion = {
 	/**
-	 * Assert that `actual` is strictly false, returning a boolean indicating whether the assertion passed.
+	 * Assert that `actual` is strictly false, returning `true` if the assertion passed and throwing otherwise.
 	 */
 	(actual: any, message?: string): actual is false;
 
@@ -198,8 +199,8 @@ export type FalseAssertion = {
 
 export type FalsyAssertion = {
 	/**
-	 * Assert that `actual` is [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy), returning a boolean
-	 * indicating whether the assertion passed.
+	 * Assert that `actual` is [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy), returning `true` if the
+	 * assertion passed and throwing otherwise.
 	 */
 	<T>(actual: T, message?: string): actual is Falsy<T>;
 
@@ -211,7 +212,7 @@ export type IsAssertion = {
 	/**
 	 * Assert that `actual` is [the same
 	 * value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is) as `expected`,
-	 * returning a boolean indicating whether the assertion passed.
+	 * returning `true` if the assertion passed and throwing otherwise.
 	 */
 	<Actual, Expected extends Actual>(actual: Actual, expected: Expected, message?: string): actual is Expected;
 
@@ -223,9 +224,9 @@ export type NotAssertion = {
 	/**
 	 * Assert that `actual` is not [the same
 	 * value](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is) as `expected`,
-	 * returning a boolean indicating whether the assertion passed.
+	 * returning `true` if the assertion passed and throwing otherwise.
 	 */
-	<Actual, Expected>(actual: Actual, expected: Expected, message?: string): boolean;
+	<Actual, Expected>(actual: Actual, expected: Expected, message?: string): true;
 
 	/** Skip this assertion. */
 	skip(actual: any, expected: any, message?: string): void;
@@ -234,9 +235,9 @@ export type NotAssertion = {
 export type NotDeepEqualAssertion = {
 	/**
 	 * Assert that `actual` is not [deeply equal](https://github.com/concordancejs/concordance#comparison-details) to
-	 * `expected`, returning a boolean indicating whether the assertion passed.
+	 * `expected`, returning `true` if the assertion passed and throwing otherwise.
 	 */
-	<Actual, Expected>(actual: Actual, expected: Expected, message?: string): boolean;
+	<Actual, Expected>(actual: Actual, expected: Expected, message?: string): true;
 
 	/** Skip this assertion. */
 	skip(actual: any, expected: any, message?: string): void;
@@ -244,29 +245,40 @@ export type NotDeepEqualAssertion = {
 
 export type NotRegexAssertion = {
 	/**
-	 * Assert that `string` does not match the regular expression, returning a boolean indicating whether the assertion
-	 * passed.
+	 * Assert that `string` does not match the regular expression, returning `true` if the assertion passed and throwing
+	 * otherwise.
 	 */
-	(string: string, regex: RegExp, message?: string): boolean;
+	(string: string, regex: RegExp, message?: string): true;
 
 	/** Skip this assertion. */
 	skip(string: string, regex: RegExp, message?: string): void;
 };
 
 export type NotThrowsAssertion = {
-	/** Assert that the function does not throw. */
-	(fn: () => any, message?: string): void;
+	/**
+	 * Assert that the function does not throw, returning `true` if the assertion passed and throwing otherwise.
+	 */
+	(fn: () => any, message?: string): true;
 
 	/** Skip this assertion. */
 	skip(fn: () => any, message?: string): void;
 };
 
 export type NotThrowsAsyncAssertion = {
-	/** Assert that the async function does not throw. You must await the result. */
-	(fn: () => PromiseLike<any>, message?: string): Promise<void>;
+	/**
+	 * Assert that the async function does not throw, returning a promise for `true` if the assertion passesd and a
+	 * rejected promise otherwise.
+	 *
+	 * You must await the result.
+	 */
+	(fn: () => PromiseLike<any>, message?: string): Promise<true>;
 
-	/** Assert that the promise does not reject. You must await the result. */
-	(promise: PromiseLike<any>, message?: string): Promise<void>;
+	/** Assert that the promise does not reject, returning a promise for `true` if the assertion passesd and a
+	 * rejected promise otherwise.
+	 *
+	 * You must await the result.
+	 */
+	(promise: PromiseLike<any>, message?: string): Promise<true>;
 
 	/** Skip this assertion. */
 	skip(nonThrower: any, message?: string): void;
@@ -274,7 +286,7 @@ export type NotThrowsAsyncAssertion = {
 
 export type PassAssertion = {
 	/** Count a passing assertion, always returning `true`. */
-	(message?: string): boolean;
+	(message?: string): true;
 
 	/** Skip this assertion. */
 	skip(message?: string): void;
@@ -282,9 +294,10 @@ export type PassAssertion = {
 
 export type RegexAssertion = {
 	/**
-	 * Assert that `string` matches the regular expression, returning a boolean indicating whether the assertion passed.
+	 * Assert that `string` matches the regular expression, returning `true` if the assertion passed and throwing
+	 * otherwise.
 	 */
-	(string: string, regex: RegExp, message?: string): boolean;
+	(string: string, regex: RegExp, message?: string): true;
 
 	/** Skip this assertion. */
 	skip(string: string, regex: RegExp, message?: string): void;
@@ -295,8 +308,10 @@ export type SnapshotAssertion = {
 	 * Assert that `expected` is [deeply equal](https://github.com/concordancejs/concordance#comparison-details) to a
 	 * previously recorded [snapshot](https://github.com/concordancejs/concordance#serialization-details), or if
 	 * necessary record a new snapshot.
+	 *
+	 * Returns `true` if the assertion passed and throws otherwise.
 	 */
-	(expected: any, message?: string): void;
+	(expected: any, message?: string): true;
 
 	/** Skip this assertion. */
 	skip(expected: any, message?: string): void;
@@ -304,10 +319,10 @@ export type SnapshotAssertion = {
 
 export type ThrowsAssertion = {
 	/**
-	 * Assert that the function throws a native error. If so, returns the error value.
-	 * The error must satisfy all expectations. Returns undefined when the assertion fails.
+	 * Assert that the function throws a native error. The error must satisfy all
+	 * expectations. Returns the error value if the assertion passes and throws otherwise.
 	 */
-	<ErrorType extends ErrorConstructor | Error>(fn: () => any, expectations?: ThrowsExpectation<ErrorType>, message?: string): ThrownError<ErrorType> | undefined;
+	<ErrorType extends ErrorConstructor | Error>(fn: () => any, expectations?: ThrowsExpectation<ErrorType>, message?: string): ThrownError<ErrorType>;
 
 	/** Skip this assertion. */
 	skip(fn: () => any, expectations?: any, message?: string): void;
@@ -315,17 +330,16 @@ export type ThrowsAssertion = {
 
 export type ThrowsAsyncAssertion = {
 	/**
-	 * Assert that the async function throws a native error. If so, returns the error
-	 * value. Returns undefined when the assertion fails. You must await the result. The error must satisfy all expectations.
+	 * Assert that the async function throws a native error. You must await the result. The error must satisfy all
+	 * expectations. Returns a promise for the error value if the assertion passes and a rejected promise otherwise.
 	 */
-	<ErrorType extends ErrorConstructor | Error>(fn: () => PromiseLike<any>, expectations?: ThrowsExpectation<ErrorType>, message?: string): Promise<ThrownError<ErrorType> | undefined>;
+	<ErrorType extends ErrorConstructor | Error>(fn: () => PromiseLike<any>, expectations?: ThrowsExpectation<ErrorType>, message?: string): Promise<ThrownError<ErrorType>>;
 
 	/**
-	 * Assert that the promise rejects with a native error. If so, returns the
-	 * rejection reason. Returns undefined when the assertion fails. You must await the result. The error must satisfy all
-	 * expectations.
+	 * Assert that the promise rejects with a native error. You must await the result. The error must satisfy all
+	 * expectations. Returns a promise for the error value if the assertion passes and a rejected promise otherwise.
 	 */
-	<ErrorType extends ErrorConstructor | Error>(promise: PromiseLike<any>, expectations?: ThrowsExpectation<ErrorType>, message?: string): Promise<ThrownError<ErrorType> | undefined>;
+	<ErrorType extends ErrorConstructor | Error>(promise: PromiseLike<any>, expectations?: ThrowsExpectation<ErrorType>, message?: string): Promise<ThrownError<ErrorType>>;
 
 	/** Skip this assertion. */
 	skip(thrower: any, expectations?: any, message?: string): void;
@@ -333,7 +347,7 @@ export type ThrowsAsyncAssertion = {
 
 export type TrueAssertion = {
 	/**
-	 * Assert that `actual` is strictly true, returning a boolean indicating whether the assertion passed.
+	 * Assert that `actual` is strictly true, returning `true` if the assertion passed and throwing otherwise.
 	 */
 	(actual: any, message?: string): actual is true;
 
@@ -343,10 +357,11 @@ export type TrueAssertion = {
 
 export type TruthyAssertion = {
 	/**
-	 * Assert that `actual` is [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy), returning a boolean
-	 * indicating whether the assertion passed.
-	 * 
-	 * Note: An `else` clause using this as a type guard will be subtly incorrect for `string` and `number` types and will not give `0` or `''` as a potential value in an `else` clause.
+	 * Assert that `actual` is [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy), returning `true` if the
+	 * assertion passed and throwing otherwise.
+	 *
+	 * Note: An `else` clause using this as a type guard will be subtly incorrect for `string` and `number` types and will
+	 * not give `0` or `''` as a potential value in an `else` clause.
 	 */
 	<T>(actual: T, message?: string):  actual is T extends Falsy<T> ? never : T;
 
